@@ -1,0 +1,27 @@
+﻿application
+{
+    data-store
+    {
+        type="NFX.DataAccess.MySQL.MySQLDataStore, NFX.MySQL"
+        connect-string="Server=localhost;Database=shortener;Uid=root;Pwd=password"
+        script-assembly="NewShortener"
+    }
+
+    wave
+    {
+        server
+        {
+            prefix { name="http://+:8080/" }
+
+            dispatcher
+            {
+                handler
+                {
+                    type="NFX.Wave.Handlers.MVCHandler, NFX.Wave"
+                    type-location { assembly="NewShortener.exe" ns { name="NewShortener.Controllers" } }
+                    match { path="/{type}/{mvc-action}" var { query-name="*" } }
+                }
+            }
+        }
+    }
+}

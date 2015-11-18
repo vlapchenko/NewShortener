@@ -1,0 +1,60 @@
+﻿#<laconf>
+    compiler
+    {
+    using { ns="NFX" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    base-class-name="NFX.Wave.Templatization.WaveTemplate"
+    namespace="NewShortener.Pages"
+    }
+#</laconf>
+
+#[render]
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>The shortener</title>
+    <style>
+        .text_inputs {
+            width: 98%;
+        }
+    </style>
+
+    <script type="text/javascript">
+        function doAjax() {
+            var xhr = new XMLHttpRequest();
+            var txt = document.getElementById("SrcLink");
+            xhr.open("POST", "/newshortener/shorten?link=" + txt.value);
+            xhr.setRequestHeader('Content-Type', 'text/plain');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    processResponse(xhr.responseText);
+                }
+            }
+            xhr.send();
+        };
+
+        function processResponse(res) {
+            var trg = document.getElementById("TrgLink");
+            trg.value = res;
+        };
+    </script>
+</head>
+
+<body>
+    <form>
+        <table width="30%" border="0">
+            <tr>
+                <td width="5%"> Source:</td>
+                <td width="80%"> <input type="text" id="SrcLink" class="text_inputs"> </td>
+                <td rowspan="2"> <button type="button" onclick="doAjax()" style="width:98%; height:100%"> Shorten</button> </td>
+            </tr>
+            <tr>
+                <td> Target:</td>
+                <td> <input type="text" id="TrgLink" class="text_inputs"> </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

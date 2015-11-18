@@ -1,0 +1,1 @@
+select * from shortener.links where link = ?p_link;

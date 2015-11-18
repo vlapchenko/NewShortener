@@ -1,0 +1,14 @@
+﻿schema
+{
+    TLink="TVarchar(1000)"
+    TSLink="TVarchar(32)"
+
+    table=links
+    {
+        comment="Links"
+
+        column=Link { type=$(/$TLink) required=true comment="Link" }
+        column=Short_Link { type=$(/$TSLink) required=true comment="Short link" }
+
+    }
+}
