@@ -8,6 +8,6 @@ namespace NewShortener.Models
         public string Link { get; set; }
 
         [Field(required: true)]
-        public string ShortLink { get; set; }
+        public string Short_Link { get; set; }
     }
 }

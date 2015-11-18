@@ -33,13 +33,16 @@ namespace NewShortener.Controllers
                         };
             var appContext = App.DataStore as MySQLDataStore;
             Links linksRow = appContext.LoadOneRow(query) as Links;
-            Row t = appContext.LoadOneRow(query);
-            string s;
             if (linksRow == null)
-                s = "null";
-            else
-                s = linksRow.ShortLink;
-            return @"linksRow:" + s + "; Row:" + t[1].AsString();
+            {
+                linksRow = new Links
+                {
+                    Link = link,
+                    Short_Link = Guid.NewGuid().ToString("N")
+                };
+                appContext.Insert(linksRow);
+            };
+            return @"linksRow:" + linksRow.Short_Link;
         }
 
     }
