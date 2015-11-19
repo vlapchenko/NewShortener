@@ -20,14 +20,14 @@ namespace NewShortener.Controllers
         public object Shorten(string link)
         {
             if (link.Trim() == "")
-                return "It is empty string";
+                return "";
 
             return GetShortLink(link);
         }
 
-        public string GetShortLink(string link)
+        private string GetShortLink(string link)
         {
-            var query = new Query("Data.Scripts.GetShortLink")
+            var query = new Query("Data.Scripts.GetShortLink", typeof(Links))
                         {
                             new Query.Param("p_link", link)
                         };
@@ -42,8 +42,31 @@ namespace NewShortener.Controllers
                 };
                 appContext.Insert(linksRow);
             };
-            return @"linksRow:" + linksRow.Short_Link;
+            return @"http://localhost:8080/NewShortener/ToRedirect?s=" + linksRow.Short_Link;
         }
 
+        [Action]
+        public object ToRedirect(string s)
+        {
+            string link = GetLink(s);
+            if (link == "")
+                return new Index();
+            return new Redirect(link);
+        }
+
+        private string GetLink(string link)
+        {
+            var query = new Query("Data.Scripts.GetLink", typeof(Links))
+                        {
+                            new Query.Param("p_short_link", link)
+                        };
+            var appContext = App.DataStore as MySQLDataStore;
+            Links linksRow = appContext.LoadOneRow(query) as Links;
+            if (linksRow == null)
+            {
+                return "";
+            };
+            return linksRow.Link;
+        }
     }
 }

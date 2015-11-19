@@ -1,0 +1,1 @@
+select * from shortener.tbl_links where short_link = ?p_short_link;

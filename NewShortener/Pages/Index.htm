@@ -36,8 +36,17 @@
         };
 
         function processResponse(res) {
-            var trg = document.getElementById("TrgLink");
-            trg.value = res;
+            var res_a = document.getElementById("result");
+            if (res == "")  {
+                res_a.style.visibility = "hidden";
+            }
+            else {
+                res_a.href = res;
+                res_a.target = "_blank";
+                res_a.innerHTML = res;
+                res_a.style.visibility = "visible";
+            }
+
         };
     </script>
 </head>
@@ -48,13 +57,11 @@
             <tr>
                 <td width="5%"> Source:</td>
                 <td width="80%"> <input type="text" id="SrcLink" class="text_inputs"> </td>
-                <td rowspan="2"> <button type="button" onclick="doAjax()" style="width:98%; height:100%"> Shorten</button> </td>
-            </tr>
-            <tr>
-                <td> Target:</td>
-                <td> <input type="text" id="TrgLink" class="text_inputs"> </td>
+                <td> <button type="button" onclick="doAjax()" style="width:98%"> Shorten</button> </td>
             </tr>
         </table>
+        <br />
+        <a id="result" style="visibility:hidden"></a>
     </form>
 </body>
 </html>

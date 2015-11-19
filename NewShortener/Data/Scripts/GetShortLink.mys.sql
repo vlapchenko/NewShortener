@@ -1,1 +1,1 @@
-select * from shortener.links where link = ?p_link;
+select * from shortener.tbl_links where link = ?p_link;

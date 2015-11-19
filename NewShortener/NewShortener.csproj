@@ -91,6 +91,7 @@
     <Content Include="Data\Schema\db.auto.tables.MySQL.sql">
       <DependentUpon>database-schema.rschema</DependentUpon>
     </Content>
+    <EmbeddedResource Include="Data\Scripts\GetLink.mys.sql" />
     <Content Include="Pages\Index.htm" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
