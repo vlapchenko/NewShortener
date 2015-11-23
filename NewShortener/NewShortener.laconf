@@ -15,6 +15,13 @@
 
             dispatcher
             {
+                filter
+                {
+                    order=1
+                    name="CustomRedirectFilter"
+                    type="NewShortener.Filters.CustomFilter, NewShortener"
+                    match { path=""}
+                }
                 handler
                 {
                     type="NFX.Wave.Handlers.MVCHandler, NFX.Wave"

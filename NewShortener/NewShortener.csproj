@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\NewShortener.cs" />
+    <Compile Include="Filters\CustomFilter.cs" />
     <Compile Include="Models\Links.cs" />
     <Compile Include="Pages\Index.htm.auto.cs">
       <DependentUpon>Index.htm</DependentUpon>

@@ -1,10 +1,10 @@
 ﻿using System;
-using NFX;
-using NFX.Wave.MVC;
 using NewShortener.Models;
 using NewShortener.Pages;
+using NFX;
 using NFX.DataAccess.CRUD;
 using NFX.DataAccess.MySQL;
+using NFX.Wave.MVC;
 
 namespace NewShortener.Controllers
 {
@@ -42,7 +42,7 @@ namespace NewShortener.Controllers
                 };
                 appContext.Insert(linksRow);
             };
-            return @"http://localhost:8080/NewShortener/ToRedirect?s=" + linksRow.Short_Link;
+            return @"http://localhost:8080/" + linksRow.Short_Link;
         }
 
         private string GetGuid()
@@ -53,35 +53,5 @@ namespace NewShortener.Controllers
             return s.Substring(0, 22);
         }
 
-        [Action]
-        public object ToRedirect(string s)
-        {
-            string link = GetLink(s);
-
-            if (link == "")
-                return new Index();
-
-            if (!link.StartsWith(@"http://") &&
-                !link.StartsWith(@"https://"))
-            {
-                return new Redirect(@"http://" + link);
-            }
-            return new Redirect(link);
-        }
-
-        private string GetLink(string link)
-        {
-            var query = new Query("Data.Scripts.GetLink", typeof(Links))
-                        {
-                            new Query.Param("p_short_link", link)
-                        };
-            var appContext = App.DataStore as MySQLDataStore;
-            Links linksRow = appContext.LoadOneRow(query) as Links;
-            if (linksRow == null)
-            {
-                return "";
-            };
-            return linksRow.Link;
-        }
     }
 }
