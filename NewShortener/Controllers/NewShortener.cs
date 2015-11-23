@@ -38,19 +38,34 @@ namespace NewShortener.Controllers
                 linksRow = new Links
                 {
                     Link = link,
-                    Short_Link = Guid.NewGuid().ToString("N")
+                    Short_Link = GetGuid()
                 };
                 appContext.Insert(linksRow);
             };
             return @"http://localhost:8080/NewShortener/ToRedirect?s=" + linksRow.Short_Link;
         }
 
+        private string GetGuid()
+        {
+            string s = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+            s = s.Replace("/", "_");
+            s = s.Replace("+", "-");
+            return s.Substring(0, 22);
+        }
+
         [Action]
         public object ToRedirect(string s)
         {
             string link = GetLink(s);
+
             if (link == "")
                 return new Index();
+
+            if (!link.StartsWith(@"http://") &&
+                !link.StartsWith(@"https://"))
+            {
+                return new Redirect(@"http://" + link);
+            }
             return new Redirect(link);
         }
 
