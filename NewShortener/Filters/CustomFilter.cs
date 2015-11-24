@@ -37,7 +37,8 @@ namespace NewShortener.Filters
             if (IsShortLink(code))
             {
                 var link = GetLink(code);
-                work.Response.RedirectAndAbort(link);
+                var res = link ?? @"http://" + work.Request.UserHostName + @"/newshortener/index";
+                work.Response.RedirectAndAbort(res);
             }
             this.InvokeNextWorker(work, filters, thisFilterIndex);
         }
@@ -60,7 +61,7 @@ namespace NewShortener.Filters
             Links linksRow = appContext.LoadOneRow(query) as Links;
 
             if (linksRow == null)
-                return @"http://localhost:8080/newshortener/index";
+                return null;
 
             var link = linksRow.Link;
 
